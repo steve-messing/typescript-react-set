@@ -1,28 +1,53 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
+import "./styles.css";
+import { DIAMOND, OVAL, SetCardColor, SetCardFill, SetCardProps, SetCardShape, SQUIGGLE } from "./interfaces";
 
-type Number = 1 | 2 | 3;
-type Shape = "oval" | "squiggle" | "diamond";
-type Color = "red" | "green" | "purple";
-type Fill = "striped" | "solid" | "empty";
-
-interface CardProps {
-  number: Number;
-  shape: Shape;
-  color: Color;
-  fill: Fill;
+function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
+  return (
+  <svg height="100" width="180" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill={color}
+      fillOpacity={getOpacity(fill)}
+      stroke={color}
+      strokeOpacity={1}
+      strokeWidth="3px"
+      d={getShapePath(shape)}
+    ></path>
+  </svg>
+  )
 }
 
-function SetCard(props: CardProps) {
+function getShapePath(shape: SetCardShape) {
+  if (shape === DIAMOND) {
+    return "m10,50 l80,40 l80,-40 l-80,-40 l-80, 40 z"
+  }
+  if (shape === OVAL) {
+    return "m50,10 A 1 1 0 0 0 50 90 l80,0 A 1 1 0 0 0 130 10 Z"
+  }
+  if (shape === SQUIGGLE) {
+    return "m 20 20 l 50 20 l 50 -20 l 50 50 l -10 10 l -50 -20 l -50 20 l -50 -50 l 10 -10 z"
+  }
+};
+
+function getOpacity(fill: SetCardFill) {
+  if (fill === "solid") {
+    return 1;
+  }
+  if (fill === "striped") {
+    return 0.5;
+  }
+  if (fill === "empty") {
+    return 0;
+  }
+}  
+
+function SetCard(props: SetCardProps) {
+
   return (
-    <Card>
-      <div className="cardContents">
-        <div className="shape">shape: {props.shape}</div>
-        <div className="number">number: {props.number}</div>
-        <div className="color">color: {props.color}</div>
-        <div className="fill">fill: {props.fill}</div>
+    <>
+      <div className="playingCard">
+        {Array(props.number).fill(getSvg(props.shape, props.color, props.fill))}
       </div>
-    </Card>
+    </>
   );
 }
 

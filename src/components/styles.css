@@ -1,0 +1,14 @@
+.playingCard {
+    width: 250px;
+    height: 350px;
+    border: 1px solid grey;
+    box-shadow: 5px 5px 5px lightgrey;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+

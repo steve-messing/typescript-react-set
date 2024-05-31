@@ -1,9 +1,14 @@
 import './App.css';
-import SetCard from './components/card';
+import SetCard from './components/SetCard';
+import SetCardDeck from './components/SetCardDeck';
 
 function App() {
+  
+  const deck = SetCardDeck();
+  console.log(deck);
+  
   return (
-    <SetCard color={"red"} number={3} shape={"oval"} fill={"solid"} />
+    <SetCard color={"green"} number={2} shape={"squiggle"} fill={"striped"} />
   );
 }
 
