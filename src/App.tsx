@@ -1,14 +1,11 @@
-import './App.css';
-import SetCard from './components/SetCard';
-import SetCardDeck from './components/SetCardDeck';
+import "./App.css";
+import SetGame from "./components/SetGame";
 
 function App() {
-  
-  const deck = SetCardDeck();
-  console.log(deck);
-  
   return (
-    <SetCard color={"green"} number={2} shape={"squiggle"} fill={"striped"} />
+    <div className="App">
+      <SetGame/>
+    </div>
   );
 }
 

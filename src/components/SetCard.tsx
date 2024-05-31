@@ -1,5 +1,5 @@
 import "./styles.css";
-import { DIAMOND, OVAL, SetCardColor, SetCardFill, SetCardProps, SetCardShape, SQUIGGLE } from "./interfaces";
+import { DIAMOND, OVAL, SQUIGGLE, SetCardColor, SetCardFill, SetCardProps, SetCardShape } from "./interfaces";
 
 function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
   return (
@@ -41,7 +41,6 @@ function getOpacity(fill: SetCardFill) {
 }  
 
 function SetCard(props: SetCardProps) {
-
   return (
     <>
       <div className="playingCard">

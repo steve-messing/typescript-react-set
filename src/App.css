@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.playingCardDeck {
+  display: grid;
+  grid-template-columns: 250px 250px 250px 250px;
+  grid-template-rows: 350px 350px 350px 350px;
+  gap: 10px;
+  justify-content: center;
+}
