@@ -1,3 +1,5 @@
+import { NamedTupleMember } from "typescript";
+
 export const DIAMOND = "diamond"
 export const OVAL = "oval"
 export const SQUIGGLE = "squiggle"
@@ -13,3 +15,10 @@ export interface SetCardProps {
   color: SetCardColor;
   fill: SetCardFill;
 }
+
+export interface LiveCardProps extends SetCardProps {
+  index: number;
+  selected: boolean;
+  onCardClick: () => void;
+}
+

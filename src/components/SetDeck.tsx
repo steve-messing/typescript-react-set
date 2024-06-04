@@ -4,6 +4,7 @@ import {
   SetCardFill,
   SetCardNumber,
   SetCardShape,
+  LiveCardProps,
 } from "./interfaces";
 
 const SetCardNumbers: SetCardNumber[] = [1, 2, 3];
@@ -34,8 +35,14 @@ function shuffleDeck(deck: SetCardProps[]): SetCardProps[] {
   return shuffledDeck;
 }
 
-export function getStartingDeck(): SetCardProps[] {
+export function getStartingDeck(): LiveCardProps[] {
   const deck = makeDeck();
   const shuffledDeck = shuffleDeck(deck);
-  return shuffledDeck;
+  const liveDeck = shuffledDeck.map((card, index) => ({
+    ...card,
+    index,
+    selected: false,
+    onCardClick: () => {},
+  }));
+  return liveDeck;
 }
