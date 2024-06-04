@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import SetCard from "./SetCard";
-import { getStartingDeck } from "./SetDeck";
+import React, { useState } from "react";
 import { LiveCardProps } from "./interfaces";
+import getStartingDeck from "./SetDeck";
+import SetHand from "./SetHand";
 
-function SetGame() {
+export const SetGame: React.FC = () => {
   var deck = getStartingDeck();
 
   function drawCards(count: number): LiveCardProps[] {
@@ -80,18 +80,8 @@ function SetGame() {
   return (
     <div className="game">
       <h1>Set Card Game</h1>
-      <div className={hand.length > 12 ? "extendedHand" : "standardHand"}>
-        {hand.map((card, index) => (
-          <SetCard
-            key={index}
-            {...card}
-            onCardClick={() => handleCardClick(index)}
-          />
-        ))}
-      </div>
+      <SetHand hand={hand} onCardClick={handleCardClick}/>
       <button onClick={addCards}>Add 3 Cards</button>
     </div>
   );
 }
-
-export default SetGame;

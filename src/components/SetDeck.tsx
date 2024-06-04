@@ -35,7 +35,7 @@ function shuffleDeck(deck: SetCardProps[]): SetCardProps[] {
   return shuffledDeck;
 }
 
-export function getStartingDeck(): LiveCardProps[] {
+function getStartingDeck(): LiveCardProps[] {
   const deck = makeDeck();
   const shuffledDeck = shuffleDeck(deck);
   const liveDeck = shuffledDeck.map((card, index) => ({
@@ -46,3 +46,5 @@ export function getStartingDeck(): LiveCardProps[] {
   }));
   return liveDeck;
 }
+
+export default getStartingDeck;

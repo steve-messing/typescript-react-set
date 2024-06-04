@@ -1,5 +1,6 @@
 import "./App.css";
-import SetGame from "./components/SetGame";
+import React from "react";
+import { SetGame } from "./components/SetGame";
 
 function App() {
   return (

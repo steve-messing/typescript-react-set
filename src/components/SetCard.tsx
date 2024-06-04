@@ -9,6 +9,7 @@ import {
   SetCardProps,
   SetCardShape,
 } from "./interfaces";
+import React from "react";
 
 function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
   return (
@@ -49,18 +50,18 @@ function getOpacity(fill: SetCardFill) {
   }
 }
 
-function SetCard(props?: LiveCardProps) {
-  return props ? (
+export const SetCard: React.FC<LiveCardProps> = (card?: LiveCardProps) => {
+  return card ? (
     <>
       <button
-        className={props.selected ? "selected" : undefined + "playingCard"}
-        onClick={props.onCardClick}
+        className={card.selected ? "selected" : undefined + "playingCard"}
+        onClick={card.onCardClick}
       >
-        {Array(props.number).fill(getSvg(props.shape, props.color, props.fill))}
+        {Array(card.number).fill(getSvg(card.shape, card.color, card.fill))}
       </button>
     </>
   ) : (
-    null
+    <div className="emptySlot"/>
   );
 }
 

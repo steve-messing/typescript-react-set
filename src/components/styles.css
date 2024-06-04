@@ -12,6 +12,12 @@
     margin: 10px;
 }
 
+.emptySlot {
+    width: 250px;
+    height: 350px;
+    margin: 10px;
+}
+
 .selected {
     border: 2px solid blue;
 }
