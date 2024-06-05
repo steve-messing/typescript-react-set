@@ -11,21 +11,25 @@ export const SetGame: React.FC = () => {
   function drawCards(count: number): LiveCardProps[] {
     const cards = deck.slice(0, count);
     setDeck(deck.slice(count));
-    console.log(deck.length);
     return cards;
   }
 
   useEffect(() => {
     setHand(drawCards(12));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function replaceCardsAfterSet(indices: number[], newCards: LiveCardProps[]) {
+    const newHand = hand.map((card, i) =>
+      indices.includes(i) ? newCards.shift()! : card
+    );
+    setHand(newHand);
+  }
+
   function addCards() {
-    if (deck.length === 0 || hand.length === 15) {
-      return;
+    if (deck.length > 0 && hand.length < 15) {
+      setHand([...hand, ...drawCards(3)]);
     }
-    const cardsToDraw = deck.length <= 3 ? deck.length : 3;
-    setHand((prevHand) => [...prevHand, ...drawCards(cardsToDraw)]);
-    return;
   }
 
   function toggleCardSelection(index: number) {
@@ -35,24 +39,36 @@ export const SetGame: React.FC = () => {
       )
     );
   }
-  
+
   function handleCardClick(index: number) {
     toggleCardSelection(index);
   }
+
+  const handleSetSelection = () => {
+    const selectedCards = hand.filter((card) => card.selected);
+    if (selectedCards.length !== 3) return;
   
-  let selectedCards = hand.filter((card) => card.selected);
-  if (selectedCards.length === 3) {
     const foundSet = checkForSet(selectedCards);
-    if (foundSet) {
-      console.log("Found a set!");
-      const handWithSetRemoved = hand.filter((card) => !card.selected);
-      setHand(handWithSetRemoved);
-      addCards();
-      console.log(deck);
-    } else {
-      console.log("Not a set.");
+    if (!foundSet) return;
+  
+    if (hand.length === 15) {
+      removeSelectedCardsFromHand();
+    } else if (hand.length === 12 && deck.length > 0) {
+      replaceSelectedCardsInHand(selectedCards);
     }
-  }
+  };
+  
+  function removeSelectedCardsFromHand() {
+    const newHand = hand.filter((card) => !card.selected);
+    setHand(newHand);
+  };
+  
+  function replaceSelectedCardsInHand(selectedCards: LiveCardProps[]) {
+    const selectedCardIndices = selectedCards.map((card) => hand.indexOf(card));
+    const cardsToDraw = Math.min(deck.length, 3);
+    const newCards = drawCards(cardsToDraw);
+    replaceCardsAfterSet(selectedCardIndices, newCards);
+  };
 
   function allEqualOrAllDifferent(array: string[]): boolean {
     return new Set(array).size === 1 || new Set(array).size === 3;
@@ -73,6 +89,8 @@ export const SetGame: React.FC = () => {
       allEqualOrAllDifferent(fills)
     );
   }
+
+  handleSetSelection();
 
   return (
     <div className="game">
