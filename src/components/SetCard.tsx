@@ -6,10 +6,10 @@ import {
   SQUIGGLE,
   SetCardColor,
   SetCardFill,
-  SetCardProps,
   SetCardShape,
 } from "./interfaces";
 import React from "react";
+import { Button } from "react-bootstrap";
 
 function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
   return (
@@ -54,8 +54,9 @@ export const SetCard: React.FC<LiveCardProps> = (card?: LiveCardProps) => {
   return card ? (
     <>
       <button
-        className={card.selected ? "selected" : undefined + "playingCard"}
+        className={card.selected ? "selected" : undefined}
         onClick={card.onCardClick}
+        style={{ borderRadius: "10px", border: card.selected ? "2px solid blue" : "1px solid grey"}}
       >
         {Array(card.number).fill(getSvg(card.shape, card.color, card.fill))}
       </button>

@@ -33,6 +33,9 @@ export const SetGame: React.FC = () => {
   }
 
   function toggleCardSelection(index: number) {
+    if (selectedCards.length === 3 && !hand[index].selected) {
+      return;
+    }
     setHand(
       hand.map((card, i) =>
         i === index ? { ...card, selected: !card.selected } : card
@@ -43,9 +46,10 @@ export const SetGame: React.FC = () => {
   function handleCardClick(index: number) {
     toggleCardSelection(index);
   }
+  
+  const selectedCards = hand.filter((card) => card.selected);
 
   const handleSetSelection = () => {
-    const selectedCards = hand.filter((card) => card.selected);
     if (selectedCards.length !== 3) return;
   
     const foundSet = checkForSet(selectedCards);
