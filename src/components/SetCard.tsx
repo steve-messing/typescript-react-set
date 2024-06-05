@@ -9,7 +9,6 @@ import {
   SetCardShape,
 } from "./interfaces";
 import React from "react";
-import { Button } from "react-bootstrap";
 
 function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
   return (
