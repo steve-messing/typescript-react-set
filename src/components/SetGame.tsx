@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { LiveCardProps } from "./interfaces";
 import getStartingDeck from "./SetDeck";
 import SetHand from "./SetHand";
+import { FoundSets } from "./FoundSets";
 
 export const SetGame: React.FC = () => {
   var initialDeck = getStartingDeck();
   const [deck, setDeck] = useState(initialDeck);
   const [hand, setHand] = useState<LiveCardProps[]>([]);
+  const [foundSets, setFoundSets] = useState<LiveCardProps[][]>([]);
 
   function drawCards(count: number): LiveCardProps[] {
     const cards = deck.slice(0, count);
@@ -46,33 +48,32 @@ export const SetGame: React.FC = () => {
   function handleCardClick(index: number) {
     toggleCardSelection(index);
   }
-  
+
   const selectedCards = hand.filter((card) => card.selected);
 
   const handleSetSelection = () => {
     if (selectedCards.length !== 3) return;
-  
-    const foundSet = checkForSet(selectedCards);
-    if (!foundSet) return;
-  
-    if (hand.length === 15) {
-      removeSelectedCardsFromHand();
-    } else if (hand.length === 12 && deck.length > 0) {
-      replaceSelectedCardsInHand(selectedCards);
+    if (checkForSet(selectedCards)) {
+      if (hand.length === 15) {
+        removeSelectedCardsFromHand();
+      } else if (hand.length === 12 && deck.length > 0) {
+        replaceSelectedCardsInHand(selectedCards);
+        setFoundSets([...foundSets, selectedCards]);
+      }
     }
   };
-  
+
   function removeSelectedCardsFromHand() {
     const newHand = hand.filter((card) => !card.selected);
     setHand(newHand);
-  };
-  
+  }
+
   function replaceSelectedCardsInHand(selectedCards: LiveCardProps[]) {
     const selectedCardIndices = selectedCards.map((card) => hand.indexOf(card));
     const cardsToDraw = Math.min(deck.length, 3);
     const newCards = drawCards(cardsToDraw);
     replaceCardsAfterSet(selectedCardIndices, newCards);
-  };
+  }
 
   function allEqualOrAllDifferent(array: string[]): boolean {
     return new Set(array).size === 1 || new Set(array).size === 3;
@@ -101,6 +102,7 @@ export const SetGame: React.FC = () => {
       <h1>Set Card Game</h1>
       <SetHand hand={hand} onCardClick={handleCardClick} />
       <button onClick={addCards}>Add 3 Cards</button>
+      {/* <FoundSets foundSets={foundSets} /> */}
     </div>
   );
 };

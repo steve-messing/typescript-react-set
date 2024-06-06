@@ -10,12 +10,37 @@ import {
 } from "./interfaces";
 import React from "react";
 
+function getFill(fill: SetCardFill, color: SetCardColor) {
+  if (fill === "striped") {
+    return `url(#pattern-${color})`;
+  }
+  if (fill === "empty") {
+    return "none";
+  }
+} 
+
+const getPattern = (color: SetCardColor) => {
+  return (
+    <defs>
+      <pattern
+        id={`pattern-${color}`}
+        patternUnits="userSpaceOnUse"
+        width="9"
+        height="9"
+        patternTransform="rotate(0)"
+      >
+        <line x1="0" y="0" x2="0" y2="9" stroke={color} stroke-width="6" />
+      </pattern>
+    </defs>
+  );
+}
+
 function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
   return (
     <svg height="100" width="180" xmlns="http://www.w3.org/2000/svg">
+      {getPattern(color)}
       <path
-        fill={color}
-        fillOpacity={getOpacity(fill)}
+        fill={fill === "solid" ? color : getFill(fill, color)}
         stroke={color}
         strokeOpacity={1}
         strokeWidth="3px"
@@ -24,6 +49,21 @@ function getSvg(shape: SetCardShape, color: SetCardColor, fill: SetCardFill) {
     </svg>
   );
 }
+
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <pattern
+      id="pattern_AvH8"
+      patternUnits="userSpaceOnUse"
+      width="14.5"
+      height="14.5"
+      patternTransform="rotate(0)"
+    >
+      <line x1="0" y="0" x2="0" y2="14.5" stroke="#194d33" stroke-width="9" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#pattern_AvH8)" opacity="1" />
+</svg>;
 
 function getShapePath(shape: SetCardShape) {
   if (shape === DIAMOND) {
@@ -37,32 +77,23 @@ function getShapePath(shape: SetCardShape) {
   }
 }
 
-function getOpacity(fill: SetCardFill) {
-  if (fill === "solid") {
-    return 1;
-  }
-  if (fill === "striped") {
-    return 0.5;
-  }
-  if (fill === "empty") {
-    return 0;
-  }
-}
-
 export const SetCard: React.FC<LiveCardProps> = (card?: LiveCardProps) => {
   return card ? (
     <>
       <button
         className={card.selected ? "selected" : undefined}
         onClick={card.onCardClick}
-        style={{ borderRadius: "10px", border: card.selected ? "2px solid blue" : "1px solid grey"}}
+        style={{
+          borderRadius: "10px",
+          border: card.selected ? "2px solid blue" : "1px solid grey",
+        }}
       >
         {Array(card.number).fill(getSvg(card.shape, card.color, card.fill))}
       </button>
     </>
   ) : (
-    <div className="emptySlot"/>
+    <div className="emptySlot" />
   );
-}
+};
 
 export default SetCard;

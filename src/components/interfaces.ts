@@ -20,5 +20,6 @@ export interface LiveCardProps extends SetCardProps {
   index: number;
   selected: boolean;
   onCardClick: () => void;
+  isSmall?: boolean;
 }
 
