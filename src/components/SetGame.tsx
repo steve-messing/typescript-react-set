@@ -3,6 +3,7 @@ import { LiveCardProps } from "./interfaces";
 import getStartingDeck from "./SetDeck";
 import SetHand from "./SetHand";
 import { FoundSets } from "./FoundSets";
+import { Button } from "react-bootstrap";
 
 export const SetGame: React.FC = () => {
   var initialDeck = getStartingDeck();
@@ -54,7 +55,7 @@ export const SetGame: React.FC = () => {
   const handleSetSelection = () => {
     if (selectedCards.length !== 3) return;
     if (checkForSet(selectedCards)) {
-      if (hand.length === 15) {
+      if (hand.length === 15 || deck.length === 0) {
         removeSelectedCardsFromHand();
       } else if (hand.length === 12 && deck.length > 0) {
         replaceSelectedCardsInHand(selectedCards);
@@ -95,14 +96,44 @@ export const SetGame: React.FC = () => {
     );
   }
 
+  function checkHandForExistingSets(hand: LiveCardProps[]): LiveCardProps[][] {
+    const sets: LiveCardProps[][] = [];
+    for (let i = 0; i < hand.length; i++) {
+      for (let j = i + 1; j < hand.length; j++) {
+        for (let k = j + 1; k < hand.length; k++) {
+          const selectedCards = [hand[i], hand[j], hand[k]];
+          if (checkForSet(selectedCards)) {
+            sets.push(selectedCards);
+          }
+        }
+      }
+    }
+    return sets;
+  }
+
+  function getHint() {
+    const sets = checkHandForExistingSets(hand);
+    if (sets.length > 0) {
+      const firstSetCard = sets[0][0];
+      toggleCardSelection(hand.indexOf(firstSetCard));
+    } else {
+      alert("No sets found! Try adding some cards.");
+    }
+  }
+
   handleSetSelection();
+  checkHandForExistingSets(hand);
+  
+  if (checkHandForExistingSets(hand).length === 0 && deck.length === 0) {
+    alert("No sets found! Game over!");
+  }
 
   return (
     <div className="game">
       <h1>Set Card Game</h1>
       <SetHand hand={hand} onCardClick={handleCardClick} />
-      <button onClick={addCards}>Add 3 Cards</button>
-      {/* <FoundSets foundSets={foundSets} /> */}
+      <Button onClick={addCards}>Add 3 Cards</Button>
+      <Button onClick={getHint}>Get Hint</Button>
     </div>
   );
 };
