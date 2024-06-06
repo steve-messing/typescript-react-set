@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { LiveCardProps } from "./interfaces";
 import getStartingDeck from "./SetDeck";
 import SetHand from "./SetHand";
-import { FoundSets } from "./FoundSets";
 import { Button } from "react-bootstrap";
 
 export const SetGame: React.FC = () => {
@@ -114,8 +113,8 @@ export const SetGame: React.FC = () => {
   function getHint() {
     const sets = checkHandForExistingSets(hand);
     if (sets.length > 0) {
-      const firstSetCard = sets[0][0];
-      toggleCardSelection(hand.indexOf(firstSetCard));
+      const hintCard = sets[0][Math.random() * 3 << 0]; // Randomly select one of the cards in the first set
+      toggleCardSelection(hand.indexOf(hintCard));
     } else {
       alert("No sets found! Try adding some cards.");
     }
