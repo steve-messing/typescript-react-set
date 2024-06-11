@@ -6,6 +6,7 @@
 .selected {
   border: 2px solid blue;
 }
+
 .standardHand {
   display: grid;
   grid-template-columns: 250px 250px 250px 250px;
