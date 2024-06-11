@@ -2,4 +2,4 @@
 
 This is a React adaptation of the classic card game Set.
 
-Built in Typescrip using Bootstrap UI.
+Built in Typescript using Bootstrap UI.
