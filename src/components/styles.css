@@ -27,3 +27,6 @@
   display: block;
   width: 300px;
 }
+.button {
+  width: 120px !important;
+}

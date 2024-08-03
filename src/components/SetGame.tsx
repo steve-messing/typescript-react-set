@@ -3,6 +3,7 @@ import { LiveCardProps } from "./interfaces";
 import getStartingDeck from "./SetDeck";
 import SetHand from "./SetHand";
 import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const SetGame: React.FC = () => {
   var initialDeck = getStartingDeck();
@@ -129,10 +130,16 @@ export const SetGame: React.FC = () => {
 
   return (
     <div className="game">
-      <h1>Set Card Game</h1>
+      <div className="d-inline-flex">
+        <h1> S </h1>
+        <h1> E </h1>
+        <h1> T </h1>  
+      </div>
       <SetHand hand={hand} onCardClick={handleCardClick} />
-      <Button onClick={addCards}>Add 3 Cards</Button>
-      <Button onClick={getHint}>Get Hint</Button>
+      <div className="m-2">
+      <Button className="m-2 button" onClick={addCards}>Add 3 Cards</Button>
+      <Button className="m-2 button" onClick={getHint}>Get Hint</Button>
+      </div>
     </div>
   );
 };
